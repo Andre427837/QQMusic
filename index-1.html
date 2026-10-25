@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0a0910">
+<title>QQMusic</title>
+<style>
+:root{--bg:#0a0910;--panel:#171420;--panel2:#21192c;--purple:#b34dff;--pink:#ff4db8;--text:#f7f3ff;--muted:#a69bb5;--line:#30263c}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,sans-serif}
+button,input{font:inherit}button{cursor:pointer;border:0;color:inherit}
+.app{max-width:520px;margin:auto;min-height:100dvh;padding:18px 16px 158px;background:radial-gradient(ellipse at 90% 0%,#29143b 0,transparent 34%),var(--bg)}
+header{display:flex;align-items:center;justify-content:space-between;margin:5px 2px 22px}.brand{font-size:27px;font-weight:900;letter-spacing:-1.2px}.brand span{color:var(--purple)}.tagline{font-size:9px;color:#c69bfa;letter-spacing:2px;margin-top:3px}.brandicon{width:43px;height:43px;border-radius:15px;display:grid;place-items:center;background:linear-gradient(140deg,var(--purple),var(--pink));font-size:22px}
+.page{display:none}.page.active{display:block}.hero{border-radius:25px;padding:22px 20px;min-height:168px;background:linear-gradient(115deg,#4c1a70,#21102e 58%,#40174e);position:relative;overflow:hidden;margin-bottom:25px}.hero:after{content:"♫";position:absolute;right:14px;bottom:-31px;font-size:150px;font-weight:900;color:#ffffff12;transform:rotate(-12deg)}.eyebrow{font-size:10px;letter-spacing:2.5px;color:#e4c2ff}.hero h1{font-size:31px;line-height:1.02;margin:12px 0 10px;letter-spacing:-1px}.hero p{font-size:12px;color:#d1c4df;margin:0}.sectionhead{display:flex;justify-content:space-between;align-items:center;margin:21px 2px 12px}.sectionhead h2{font-size:18px;margin:0}.sectionhead span{font-size:9px;letter-spacing:2px;color:var(--purple)}
+.searchbox{width:100%;border:1px solid var(--line);background:var(--panel);color:white;border-radius:17px;padding:15px 16px;outline:none;margin-bottom:16px}.searchbox:focus{border-color:var(--purple)}.chips{display:flex;gap:8px;overflow:auto;margin-bottom:20px}.chip{white-space:nowrap;background:var(--panel);color:var(--muted);border:1px solid var(--line);padding:9px 13px;border-radius:999px;font-size:12px}.chip.selected{background:#352044;color:#e5c1ff;border-color:#7842a0}
+.track{display:flex;align-items:center;gap:12px;padding:10px;background:var(--panel);border:1px solid #ffffff05;border-radius:17px;margin-bottom:9px}.cover{width:49px;height:49px;flex-shrink:0;border-radius:13px;display:grid;place-items:center;background:linear-gradient(135deg,#a53eff,#38204f 55%,#ff4db8);font-size:22px}.trackinfo{min-width:0;flex:1}.tracktitle{font-size:14px;font-weight:750;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.artist{font-size:11px;color:var(--muted);margin-top:4px}.iconbtn{background:transparent;color:var(--muted);padding:7px;font-size:20px}.iconbtn.liked{color:var(--pink)}.addbtn{color:#d8a8ff;font-size:23px}
+.wavecard{border-radius:24px;padding:22px;background:linear-gradient(140deg,#321244,#17101f 60%,#4c1a58);margin:14px 0 20px}.wavebars{height:100px;display:flex;align-items:center;justify-content:center;gap:5px}.wavebars i{width:5px;border-radius:6px;background:linear-gradient(var(--pink),var(--purple));animation:pulse 1s ease-in-out infinite alternate}.wavebars i:nth-child(3n){animation-delay:.3s}.wavebars i:nth-child(2n){animation-delay:.6s}@keyframes pulse{to{transform:scaleY(.45);opacity:.65}}
+.empty{color:var(--muted);font-size:13px;padding:20px 8px;line-height:1.5}.bottom{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(520px,100%);padding:8px 12px calc(9px + env(safe-area-inset-bottom));background:#100e17f5;backdrop-filter:blur(18px);border-top:1px solid var(--line);z-index:5}.mini{display:flex;align-items:center;gap:10px;background:#24162f;border-radius:15px;padding:8px 10px;margin-bottom:8px}.mini .cover{width:39px;height:39px;border-radius:10px}.mini .trackinfo{flex:1;min-width:0}.mini .tracktitle{font-size:12px}.mini .artist{font-size:10px}.play{width:38px;height:38px;border-radius:50%;background:linear-gradient(140deg,var(--purple),var(--pink));font-size:17px}.nav{display:flex;justify-content:space-around}.nav button{flex:1;background:transparent;color:#93899f;padding:6px 0 2px;font-size:10px}.nav button b{display:block;font-size:20px;font-weight:500;margin-bottom:3px}.nav button.active{color:#d7a6ff}.nav button.active b{filter:drop-shadow(0 0 8px #b34dff)}
+.modal{position:fixed;inset:0;background:#000b;z-index:10;display:none;align-items:flex-end;justify-content:center}.modal.open{display:flex}.sheet{width:min(520px,100%);background:#171420;border-radius:25px 25px 0 0;padding:25px 22px calc(28px + env(safe-area-inset-bottom));border:1px solid var(--line)}.sheet h2{margin:0 0 6px}.sheet p{color:var(--muted);font-size:13px;line-height:1.5}.close{float:right;background:var(--panel2);border-radius:50%;width:34px;height:34px}.progress{height:4px;background:#393043;border-radius:9px;margin:18px 0}.progress span{display:block;width:0;height:100%;background:linear-gradient(90deg,var(--purple),var(--pink));border-radius:9px}.smallnote{font-size:10px;color:#80758d;text-align:center;margin-top:14px}
+</style>
+</head>
+<body>
+<div class="app">
+<header><div><div class="brand">QQ<span>Music</span></div><div class="tagline">ТВОЯ МУЗЫКА. ТВОЯ ВОЛНА.</div></div><div class="brandicon">♫</div></header>
+
+<main>
+<section id="home" class="page active">
+<div class="hero"><div class="eyebrow">ТВОЯ ВОЛНА</div><h1>Найди свой<br>ритм.</h1><p>Миксы под твоё настроение</p></div>
+<div class="sectionhead"><h2>Популярное сейчас</h2><span>DEMO MIX</span></div>
+<div id="homeTracks"></div>
+</section>
+
+<section id="search" class="page">
+<div class="sectionhead"><h2>Поиск музыки</h2><span>DISCOVER</span></div>
+<input class="searchbox" id="query" placeholder="⌕  Трек или исполнитель…" autocomplete="off">
+<div class="chips"><button class="chip selected" data-filter="all">Все</button><button class="chip" data-filter="Electronic">Электроника</button><button class="chip" data-filter="Chill">Chill</button><button class="chip" data-filter="Bass">Bass</button></div>
+<div id="searchTracks"></div>
+</section>
+
+<section id="wave" class="page">
+<div class="eyebrow">QQMUSIC RADIO</div><h1 style="font-size:30px;margin:10px 0">Твоя Волна</h1><p style="color:var(--muted);font-size:13px;line-height:1.5">Микс под настроение. В будущем рекомендации будут учитывать историю прослушивания.</p>
+<div class="wavecard"><div class="eyebrow">NIGHT DRIVE · MIX 01</div><div class="wavebars" id="bars"></div><button class="chip" onclick="playTrack(0)">▶ Слушать микс</button></div>
+<div class="sectionhead"><h2>Для ночных поездок</h2><span>4 ТРЕКА</span></div><div id="waveTracks"></div>
+</section>
+
+<section id="library" class="page">
+<div class="sectionhead"><h2>Моя библиотека</h2><span>YOUR MUSIC</span></div>
+<div class="chips"><button class="chip selected" data-lib="likes">♡ Избранное</button><button class="chip" data-lib="playlist">☷ Плейлист</button></div>
+<div id="libraryTracks"></div>
+</section>
+</main>
+</div>
+
+<div class="bottom">
+<div class="mini"><div class="cover">♫</div><div class="trackinfo"><div class="tracktitle" id="miniTitle">Neon Drive</div><div class="artist" id="miniArtist">QQMusic Demo</div></div><button class="iconbtn" onclick="openLyrics()">▤</button><button class="play" id="playButton" onclick="togglePlay()">▶</button></div>
+<div class="nav">
+<button class="active" data-page="home"><b>⌂</b>Главная</button><button data-page="search"><b>⌕</b>Поиск</button><button data-page="wave"><b>♫</b>Волна</button><button data-page="library"><b>♡</b>Библиотека</button>
+</div>
+</div>
+
+<div class="modal" id="lyricsModal" onclick="if(event.target===this)closeLyrics()"><div class="sheet"><button class="close" onclick="closeLyrics()">×</button><div class="eyebrow">QQMUSIC LYRICS</div><h2 id="lyricsTitle">Текст песни</h2><p>Экран текстов готов как прототип. Для отображения настоящих текстов потребуется подключить поставщика текстов песен и проверить условия его лицензии.</p><div class="progress"><span></span></div><button class="chip" onclick="closeLyrics()">Закрыть</button></div></div>
+
+<script>
+const tracks=[
+ {title:"Neon Drive",artist:"QQMusic Demo",tag:"Electronic",url:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"},
+ {title:"Midnight Pulse",artist:"QQMusic Demo",tag:"Chill",url:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"},
+ {title:"Purple Sky",artist:"QQMusic Demo",tag:"Electronic",url:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"},
+ {title:"Night Ride",artist:"QQMusic Demo",tag:"Bass",url:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3"}
+];
+let current=0, playing=false, filter="all", libraryTab="likes";
+let likes=JSON.parse(localStorage.getItem("qqm_likes")||"[]");
+let playlist=JSON.parse(localStorage.getItem("qqm_playlist")||"[]");
+const audio=new Audio(); audio.preload="none";
+function safeSave(){localStorage.setItem("qqm_likes",JSON.stringify(likes));localStorage.setItem("qqm_playlist",JSON.stringify(playlist))}
+function esc(s){return s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function row(t,i,showAdd=false){return `<div class="track"><div class="cover" onclick="playTrack(${i})">♫</div><div class="trackinfo" onclick="playTrack(${i})"><div class="tracktitle">${esc(t.title)}</div><div class="artist">${esc(t.artist)} · ${esc(t.tag)}</div></div><button class="iconbtn ${likes.includes(t.title)?"liked":""}" onclick="toggleLike(${i})">${likes.includes(t.title)?"♥":"♡"}</button>${showAdd?`<button class="iconbtn addbtn" onclick="addPlaylist(${i})">＋</button>`:""}</div>`}
+function render(){
+ document.getElementById("homeTracks").innerHTML=tracks.map((t,i)=>row(t,i)).join("");
+ document.getElementById("waveTracks").innerHTML=tracks.map((t,i)=>row(t,i)).join("");
+ renderSearch();renderLibrary();updateMini();
+}
+function renderSearch(){let q=(document.getElementById("query").value||"").toLowerCase();let list=tracks.map((t,i)=>({t,i})).filter(x=>(filter==="all"||x.t.tag===filter)&&(!q||(x.t.title+" "+x.t.artist+" "+x.t.tag).toLowerCase().includes(q)));document.getElementById("searchTracks").innerHTML=list.length?list.map(x=>row(x.t,x.i,true)).join(""):'<div class="empty">Ничего не найдено. Попробуй другое название.</div>'}
+function renderLibrary(){let list=libraryTab==="likes"?tracks.filter(t=>likes.includes(t.title)):playlist.map(title=>tracks.find(t=>t.title===title)).filter(Boolean);document.getElementById("libraryTracks").innerHTML=list.length?list.map(t=>row(t,tracks.indexOf(t),libraryTab==="likes")).join(""):`<div class="empty">${libraryTab==="likes"?"Нажми ♡ рядом с треком, чтобы добавить его в избранное.":"Добавляй треки кнопкой ＋ в разделе «Поиск»."}</div>`}
+function playTrack(i){current=i;audio.src=tracks[i].url;audio.play().then(()=>{playing=true;updateMini()}).catch(()=>{playing=false;updateMini();alert("Не удалось запустить аудио. Проверь интернет-соединение и попробуй ещё раз.")});updateMini()}
+function togglePlay(){if(!audio.src){playTrack(current);return}if(playing){audio.pause();playing=false;updateMini()}else{audio.play().then(()=>{playing=true;updateMini()}).catch(()=>alert("Проверь интернет-соединение."))}}
+audio.addEventListener("ended",()=>{playTrack((current+1)%tracks.length)});
+audio.addEventListener("play",()=>{playing=true;updateMini()});audio.addEventListener("pause",()=>{playing=false;updateMini()});
+function updateMini(){document.getElementById("miniTitle").textContent=tracks[current].title;document.getElementById("miniArtist").textContent=tracks[current].artist;document.getElementById("playButton").textContent=playing?"Ⅱ":"▶"}
+function toggleLike(i){let title=tracks[i].title;likes=likes.includes(title)?likes.filter(x=>x!==title):[...likes,title];safeSave();render()}
+function addPlaylist(i){let title=tracks[i].title;if(!playlist.includes(title))playlist.push(title);safeSave();renderLibrary();alert("Добавлено в плейлист")}
+function openLyrics(){document.getElementById("lyricsTitle").textContent="Текст: "+tracks[current].title;document.getElementById("lyricsModal").classList.add("open")}
+function closeLyrics(){document.getElementById("lyricsModal").classList.remove("open")}
+document.querySelectorAll("[data-page]").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll("[data-page]").forEach(x=>x.classList.toggle("active",x===b));document.querySelectorAll(".page").forEach(x=>x.classList.toggle("active",x.id===b.dataset.page))}));
+document.getElementById("query").addEventListener("input",renderSearch);
+document.querySelectorAll("[data-filter]").forEach(b=>b.addEventListener("click",()=>{filter=b.dataset.filter;document.querySelectorAll("[data-filter]").forEach(x=>x.classList.toggle("selected",x===b));renderSearch()}));
+document.querySelectorAll("[data-lib]").forEach(b=>b.addEventListener("click",()=>{libraryTab=b.dataset.lib;document.querySelectorAll("[data-lib]").forEach(x=>x.classList.toggle("selected",x===b));renderLibrary()}));
+document.getElementById("bars").innerHTML=Array.from({length:27},(_,i)=>`<i style="height:${18+Math.abs(Math.sin(i*1.7))*75}px"></i>`).join("");
+render();
+</script>
+</body>
+</html>
